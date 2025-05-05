@@ -23,6 +23,7 @@ export interface DocumentMetadata {
   width?: number;
   location?: number[];
   location_max_dimensions?: number[];
+  custom_metadata?: Record<string, any>;
 }
 
 export interface BaseResponse {

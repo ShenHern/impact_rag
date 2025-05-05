@@ -393,6 +393,10 @@ class SourceMetadata(BaseModel):
         default=[],
         description="Maximum dimensions of the document"
     )
+    custom_metadata: Dict[str, Any] = Field(
+        default={},
+        description="Custom metadata associated with the document"
+    )
 
 class SourceResult(BaseModel):
     """Represents a single source document result."""
@@ -705,7 +709,10 @@ def prepare_citations(
             if doc.metadata.get("content_metadata").get("type") in ["text"]:
                 content = doc.page_content
                 document_type = doc.metadata.get("content_metadata").get("type")
-                source_metadata = SourceMetadata(description=doc.page_content)
+                source_metadata = SourceMetadata(
+                    description=doc.page_content,
+                    custom_metadata=doc.metadata.get("custom_metadata")
+                )
 
             elif doc.metadata.get("content_metadata").get("type") in ["image", "structured"]:
                 # Pull required metadata
@@ -729,18 +736,21 @@ def prepare_citations(
                         source_metadata = SourceMetadata(
                             page_number=page_number,
                             location=location,
-                            description=doc.page_content
+                            description=doc.page_content,
+                            custom_metadata=doc.metadata.get("custom_metadata")
                         )
                     else:
                         content = ""
                         source_metadata = SourceMetadata(
-                            description=doc.page_content
+                            description=doc.page_content,
+                            custom_metadata=doc.metadata.get("custom_metadata")
                         )
                 except Exception as e:
                     logger.error(f"Error pulling content from minio for image/table/chart for citations: {e}")
                     content = ""
                     source_metadata = SourceMetadata(
-                        description=doc.page_content
+                        description=doc.page_content,
+                        custom_metadata=doc.metadata.get("custom_metadata")
                     )
 
             if content and document_type in ["image", "text", "table", "chart"]:
