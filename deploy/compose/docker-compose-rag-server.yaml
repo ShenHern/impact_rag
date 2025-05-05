@@ -35,7 +35,7 @@ services:
       VECTOR_DB_TOPK: 100
 
       ##===LLM Model specific configurations===
-      APP_LLM_MODELNAME: ${APP_LLM_MODELNAME:-"meta/llama-3.1-70b-instruct"}
+      APP_LLM_MODELNAME: ${APP_LLM_MODELNAME:-"meta/llama-3.1-8b-instruct"}
       # url on which llm model is hosted. If "", Nvidia hosted API is used
       APP_LLM_SERVERURL: ${APP_LLM_SERVERURL-"nim-llm:8000"}
 
@@ -125,7 +125,7 @@ services:
       dockerfile: ./Dockerfile
       args:
         # Model name for LLM
-        NEXT_PUBLIC_MODEL_NAME: ${APP_LLM_MODELNAME:-meta/llama-3.1-70b-instruct}
+        NEXT_PUBLIC_MODEL_NAME: ${APP_LLM_MODELNAME:-meta/llama-3.1-8b-instruct}
         # Model name for embeddings
         NEXT_PUBLIC_EMBEDDING_MODEL: ${APP_EMBEDDINGS_MODELNAME:-nvidia/llama-3.2-nv-embedqa-1b-v2}
         # Model name for reranking

@@ -95,8 +95,8 @@ class ExtractionOptions(BaseModel):
 
 class SplitOptions(BaseModel):
     """Options for splitting the document into smaller chunks."""
-    chunk_size: int = Field(1024, description="Number of units per split.")
-    chunk_overlap: int = Field(150, description="Number of overlapping units between consecutive splits.")
+    chunk_size: int = Field(os.getenv("APP_NVINGEST_CHUNKSIZE", 1024), description="Number of units per split.")
+    chunk_overlap: int = Field(os.getenv("APP_NVINGEST_CHUNKOVERLAP", 150), description="Number of overlapping units between consecutive splits.")
 
 
 class DocumentUploadRequest(BaseModel):

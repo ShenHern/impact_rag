@@ -195,7 +195,7 @@ export default function Modal({
             <button
               onClick={onSubmit}
               disabled={isSubmitDisabled || isLoading}
-              className="flex items-center gap-2 rounded-md bg-[var(--nv-green)] px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-[#8CCF00] disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex items-center gap-2 rounded-md bg-[var(--nv-green)] px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-[#00205C] disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? (
                 <>
