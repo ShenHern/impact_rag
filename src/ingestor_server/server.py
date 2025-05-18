@@ -123,6 +123,11 @@ class DocumentUploadRequest(BaseModel):
         description="Options for splitting documents into smaller parts before embedding."
     )
 
+    custom_metadata: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Custom metadata to be associated with the documents."
+    )
+
     # Reserved for future use
     # embedding_model: str = Field(
     #     os.getenv("APP_EMBEDDINGS_MODELNAME", ""),

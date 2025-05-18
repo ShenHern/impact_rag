@@ -25,6 +25,7 @@ from typing import List
 from typing import Any
 from typing import Optional
 from urllib.parse import urlparse
+import pandas as pd
 
 import requests
 import yaml
@@ -661,6 +662,17 @@ def get_nv_ingest_ingestor(
 
     # Add files to ingestor
     ingestor = ingestor.files(filepaths)
+    
+    # Add metadata to files, ingestor requires a dataframe
+    meta_df = pd.DataFrame(
+        {
+            "source": filepaths,
+            #"meta_a": kwargs.get("custom_metadata")
+            **kwargs.get("custom_metadata", {})
+        }
+    )
+    metadata_dict=kwargs.get("custom_metadata")
+    metadata_keys=list(metadata_dict.keys())
 
     # Add extraction task
     extraction_options = kwargs.get("extraction_options", {})
@@ -713,6 +725,11 @@ def get_nv_ingest_ingestor(
             enable_images=extraction_options.get("extract_images", config.nv_ingest.extract_images),
             recreate=False, # Don't re-create milvus collection
             dense_dim=config.embeddings.dimensions,
+
+            #add metadata
+            meta_dataframe=meta_df, 
+            meta_source_field="source", 
+            meta_fields=metadata_keys,
 
             gpu_index = config.vector_store.enable_gpu_index,
             gpu_search = config.vector_store.enable_gpu_search,

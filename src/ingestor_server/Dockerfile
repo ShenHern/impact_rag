@@ -35,7 +35,7 @@ RUN rm xz-utils*
 COPY LICENSE-3rd-party.txt /legal/
 
 # Patch to fix nv-ingest-client dependency issue
-RUN pip3 install https://github.com/NVIDIA/nv-ingest/releases/download/25.3.0/nv_ingest_client-25.3.0-py3-none-any.whl
+#RUN pip3 install https://github.com/NVIDIA/nv-ingest/releases/download/25.3.0/nv_ingest_client-25.3.0-py3-none-any.whl
 
 # Install common dependencies for all examples
 RUN --mount=type=cache,id=pip_cache,target=/root/.cache/pip,sharing=locked \

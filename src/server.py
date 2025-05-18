@@ -705,13 +705,14 @@ def prepare_citations(
         for doc in retrieved_documents:
 
             file_name = os.path.basename(doc.metadata.get("source").get("source_id"))
+            fixed_keys = ["type","location","max_dimensions"]
 
             if doc.metadata.get("content_metadata").get("type") in ["text"]:
                 content = doc.page_content
                 document_type = doc.metadata.get("content_metadata").get("type")
                 source_metadata = SourceMetadata(
                     description=doc.page_content,
-                    custom_metadata=doc.metadata.get("custom_metadata")
+                    custom_metadata={k:v for k,v in doc.metadata.get("content_metadata", {}).items() if k not in fixed_keys}
                 )
 
             elif doc.metadata.get("content_metadata").get("type") in ["image", "structured"]:
@@ -737,20 +738,20 @@ def prepare_citations(
                             page_number=page_number,
                             location=location,
                             description=doc.page_content,
-                            custom_metadata=doc.metadata.get("custom_metadata")
+                            custom_metadata={k:v for k,v in doc.metadata.get("content_metadata", {}).items() if k not in fixed_keys}
                         )
                     else:
                         content = ""
                         source_metadata = SourceMetadata(
                             description=doc.page_content,
-                            custom_metadata=doc.metadata.get("custom_metadata")
+                            custom_metadata={k:v for k,v in doc.metadata.get("content_metadata", {}).items() if k not in fixed_keys}
                         )
                 except Exception as e:
                     logger.error(f"Error pulling content from minio for image/table/chart for citations: {e}")
                     content = ""
                     source_metadata = SourceMetadata(
                         description=doc.page_content,
-                        custom_metadata=doc.metadata.get("custom_metadata")
+                        custom_metadata={k:v for k,v in doc.metadata.get("content_metadata", {}).items() if k not in fixed_keys}
                     )
 
             if content and document_type in ["image", "text", "table", "chart"]:
